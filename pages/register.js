@@ -37,7 +37,7 @@ const Register = () => {
         router.push('/login');
       }
     } catch (error) {
-      setError('Erreur lors de l’inscription, veuillez réessayer.');
+      error('Erreur lors de l’inscription, veuillez réessayer.');
     }
   };
 
