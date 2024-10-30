@@ -74,7 +74,7 @@ const Navbar = () => {
     );
   };
 
-  
+
 // Styles
 const Container = styled.div`
   display: flex;
@@ -144,20 +144,20 @@ const HotelsCount = styled.h2`
   font-size: 24px;
 `;
 
-const CreateHotelButton = styled.button`
-  background-color: white;
-  color: #000000;
-  border: 2px solid #ddd;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
+// const CreateHotelButton = styled.button`
+//   background-color: white;
+//   color: #000000;
+//   border: 2px solid #ddd;
+//   padding: 10px 20px;
+//   border-radius: 10px;
+//   cursor: pointer;
+//   font-size: 16px;
 
-  &:hover {
-    background-color: #f9f9f9;
-    border-color: #ccc;
-  }
-`;
+//   &:hover {
+//     background-color: #f9f9f9;
+//     border-color: #ccc;
+//   }
+// `;
 
 const HotelsGrid = styled.div`
   display: grid;

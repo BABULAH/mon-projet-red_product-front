@@ -100,7 +100,7 @@ const CreateHotel = () => {
         <FormContainer onSubmit={handleSubmit}>
           <FormRow>
             <FormGroup>
-              <Label htmlFor="name">Nom de l\'hôtel</Label>
+              <Label htmlFor="name">Nom de l hôtel</Label>
               <Input
                 type="text"
                 id="name"
@@ -198,7 +198,7 @@ const CreateHotel = () => {
           </FormRow>
 
           <ButtonContainer>
-            <SubmitButton type="submit">Créer l\'hôtel</SubmitButton>
+            <SubmitButton type="submit">Créer l hôtel</SubmitButton>
           </ButtonContainer>
 
           {error && <Error>{error}</Error>}

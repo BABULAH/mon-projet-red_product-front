@@ -18,7 +18,7 @@ const Login = () => {
     if (token) {
       router.push('/dashboard');
     }
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +86,7 @@ const Login = () => {
           Mot de passe oublié ?
         </ForgotPassword>
         <SignUpLink>
-          Vous n'avez pas de compte ? <a onClick={() => router.push('/register')}>S'inscrire</a>
+          Vous n avez pas de compte ? <a onClick={() => router.push('/register')}>S inscrire</a>
         </SignUpLink>
       </LinksContainer>
     </Container>

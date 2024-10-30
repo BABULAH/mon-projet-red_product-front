@@ -16,6 +16,7 @@ const ForgotPassword = () => {
     try {
       // Requête pour envoyer l'email au backend
       const response = await axiosInstance.post('/auth/forgot-password', { email });
+      console.log(response.data);
       setSuccess('Un lien de réinitialisation de mot de passe a été envoyé à votre adresse e-mail.');
       setError(null);
 
