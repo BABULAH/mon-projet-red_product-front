@@ -36,9 +36,14 @@ const Register = () => {
         setError('');
         router.push('/login');
       }
-    } catch (error) {
-      error('Erreur lors de l’inscription, veuillez réessayer.');
+    }catch (error) {
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || 'Erreur lors de l\'inscription, veuillez réessayer.');
+      } else {
+        setError('Erreur lors de l\'inscription, veuillez réessayer.');
+      }
     }
+    
   };
 
   return (
