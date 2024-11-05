@@ -27,8 +27,8 @@ const Register = () => {
       return;
     }
 
-    toast.loading("Inscription en cours..."); // Affiche le toast de chargement
-    setIsLoading(true); // Démarre le chargement
+    // toast.loading("Inscription en cours..."); // Affiche le toast de chargement
+    // setIsLoading(true); // Démarre le chargement
 
     try {
       const response = await axiosInstance.post('/auth/register', {
