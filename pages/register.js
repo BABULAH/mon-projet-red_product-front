@@ -96,7 +96,7 @@ const Register = () => {
         {isLoading ? (
           <LoadingMessage>Inscription en cours...</LoadingMessage> // Message de chargement
         ) : (
-          <Button type="submit">S'inscrire</Button>
+          <Button type="submit">S inscrire</Button>
         )}
       </Form>
       <LinksContainer>
