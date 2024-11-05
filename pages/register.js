@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import axiosInstance from '../utils/axiosInstance'; 
+import axiosInstance from '../utils/axiosInstance';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const logoUrl = '/images/logo.jpg';
 
@@ -24,6 +26,8 @@ const Register = () => {
       return;
     }
 
+    toast.loading("Inscription en cours..."); // Affiche le toast de chargement
+
     try {
       const response = await axiosInstance.post('/auth/register', {
         username: name,
@@ -32,27 +36,29 @@ const Register = () => {
       });
 
       if (response.status === 200) {
-        setSuccess('Account created!');
+        setSuccess('Compte créé avec succès !');
         setError('');
+        toast.dismiss(); // Supprime le toast de chargement
         router.push('/login');
       }
-    }catch (error) {
+    } catch (error) {
+      toast.dismiss(); // Supprime le toast de chargement
       if (error.response && error.response.data) {
         setError(error.response.data.message || 'Erreur lors de l\'inscription, veuillez réessayer.');
       } else {
         setError('Erreur lors de l\'inscription, veuillez réessayer.');
       }
     }
-    
   };
 
   return (
     <Container>
+      <ToastContainer /> {/* Ajoute le conteneur de toasts */}
       <Logo src={logoUrl} alt="Logo" />
       <Form onSubmit={handleSubmit}>
-        <Title>Sign Up</Title>
-        {error && <ErrorMessage>{error}</ErrorMessage>}  {/* Affiche les erreurs */}
-        {success && <SuccessMessage>{success}</SuccessMessage>}  {/* Affiche le succès */}
+        <Title>Inscrivez-vous en tant que Admin</Title>
+        {error && <ErrorMessage>{error}</ErrorMessage>}  
+        {success && <SuccessMessage>{success}</SuccessMessage>}  
         <Input 
           type="text" 
           placeholder="Nom" 
@@ -83,7 +89,7 @@ const Register = () => {
           />
           <Label>Accepter les termes et la politique</Label>
         </CheckboxContainer>
-        <Button type="submit">S inscrire</Button>
+        <Button type="submit">S'inscrire</Button>
       </Form>
       <LinksContainer>
         <LoginLink>
@@ -112,37 +118,45 @@ const Logo = styled.img`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 384px;
+  height: 500px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
   text-align: center;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
+    font-size: 17.07px;
 `;
 
 const Input = styled.input`
   margin: 20px 0;
   padding: 10px;
-  font-size: 16px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
+  font-size: 15.87px;
   border: none;
-  border-bottom: 1px solid #474646FF;
+  border-bottom: 1px solid #DBD8D8FF;
   outline: none;
 
   &:focus {
-    border-bottom: 1px solid #474646FF;
+    border-bottom: 1px solid #DBD8D8FF;
   }
 `;
 
 const Button = styled.button`
   padding: 10px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 500; /* Appliquer un poids très léger */
   background-color: #474646FF;
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 21.33px;
 `;
 
 const CheckboxContainer = styled.div`
@@ -153,23 +167,31 @@ const CheckboxContainer = styled.div`
 
 const Checkbox = styled.input`
   margin-right: 8px;
+  width: 24px;
+  height: 24px; /* Corrigé ici */
 `;
 
 const Label = styled.label`
-  font-size: 14px;
+  font-size: 18.67px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 `;
 
 const LinksContainer = styled.div`
   margin-top: 10px;
   text-align: center;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 `;
 
 const LoginLink = styled.p`
-  font-size: 14px;
+  font-size: 18.67px;
   color: white;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 
   a {
-    color: #D3AD03FF;
+    color: #FFD964;
     cursor: pointer;
     text-decoration: underline;
   }

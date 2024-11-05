@@ -1,53 +1,65 @@
 import styled from 'styled-components';
-import Navbar from '../../components/Navbar';
+// import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axiosInstance'; // Assure-toi que le chemin est correct
-
+import { useRouter } from 'next/router'; // Import useRouter for navigation
+import axiosInstance from '../../utils/axiosInstance';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
 
 
 const CreateHotel = () => {
+  const router = useRouter(); // Initialize useRouter
   const [hotel, setHotel] = useState({
     name: '',
     address: '',
     email: '',
     phone: '',
     price: '',
-    currency: 'EUR', // Valeur par défaut
+    currency: 'EUR', // Default currency
     image: null,
   });
 
-  const [currencies, setCurrencies] = useState([]); // Stocker les devises
+  const [currencies, setCurrencies] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  
-  // Utiliser useEffect pour récupérer les devises au chargement de la page
+  // Fetch currencies on page load
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
         const response = await axiosInstance.get(`/currency`);
-        console.log(response.data); // Vérifier les données
         if (response.data) {
-          setCurrencies(response.data); // Stocker les devises récupérées
+          setCurrencies(response.data);
         }
       } catch (err) {
-        console.error('Erreur lors de la récupération des devises', err);
-        setError('Impossible de récupérer les devises.');
+        console.error('Error fetching currencies', err);
+        setError('Unable to retrieve currencies.');
       }
     };
-  
     fetchCurrencies();
   }, []);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setHotel({ ...hotel, [name]: value });
   };
 
   const handleImageUpload = (e) => {
-    setHotel({ ...hotel, image: e.target.files[0] });
+    const file = e.target.files[0];
+    setHotel({ ...hotel, image: file });
+  
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewImage(e.target.result); // Update state with the image preview
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+const [previewImage, setPreviewImage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,28 +77,19 @@ const CreateHotel = () => {
       const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_API_URL}/hotels`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       if (response.status === 200) {
         setSuccess(true);
         setError(null);
-        setHotel({
-          name: '',
-          address: '',
-          email: '',
-          phone: '',
-          price: '',
-          currency: 'EUR',
-          image: null,
-        });
+        router.push('/hotels'); // Redirect to the hotel listing page
       }
     } catch (err) {
       const errorMessage = err.response?.data?.msg 
         ? err.response.data.msg 
-        : 'Une erreur est survenue lors de l\'ajout de l\'hôtel.';
-        
-        
+        : 'An error occurred while adding the hotel.';
       setError(errorMessage);
       setSuccess(false);
     }
@@ -96,11 +99,20 @@ const CreateHotel = () => {
     <Container>
       <Sidebar />
       <Content>
-        <Navbar pageTitle="Créer un nouvel hôtel" />
+        {/* <Navbar pageTitle="Create a New Hotel" /> */}
+
         <FormContainer onSubmit={handleSubmit}>
+          {/* Bouton pour revenir à la liste des hôtels */}
+          <BackButton onClick={() => router.push('/hotels')}>
+            <FontAwesomeIcon icon={faArrowLeft} style={{ marginRight: '8px' }} />
+            Créer un nouveau hôtel  
+          </BackButton>
+
+          <StyledHr />
+
           <FormRow>
             <FormGroup>
-              <Label htmlFor="name">Nom de l hôtel</Label>
+              <Label htmlFor="name">Nom de l hôtel </Label>
               <Input
                 type="text"
                 id="name"
@@ -136,7 +148,7 @@ const CreateHotel = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor="phone">Numéro de téléphone</Label>
+              <Label htmlFor="phone">Numéro de téléphone </Label>
               <Input
                 type="tel"
                 id="phone"
@@ -169,53 +181,54 @@ const CreateHotel = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>Sélectionnez une devise</option>
-                {currencies.length > 0 ? (
-                  currencies.map((currency) => (
-                    <option key={currency._id} value={currency.name}>
-                      {currency.name}
-                    </option>
-                  ))
-                ) : (
-                  <option disabled>Aucune devise disponible</option>
-                )}
+                {currencies.map((currency) => (
+                  <option key={currency._id} value={currency.name}>
+                    {currency.name}
+                  </option>
+                ))}
               </CurrencySelect>
             </FormGroup>
           </FormRow>
-
-          <FormRow>
-            <FormGroup center>
-              <Label htmlFor="image">Ajouter une photo</Label>
+          
+          <FormGroup center>
+            <Label htmlFor="image">Ajouter une photo</Label>
+            <ImageInputWrapper>
               <ImageInput
                 type="file"
                 id="image"
                 name="image"
                 accept="image/*"
                 onChange={handleImageUpload}
-                required
               />
-            </FormGroup>
-          </FormRow>
+              {!previewImage ? (
+                <ImageIcon>
+                  <FontAwesomeIcon icon={faImage} size="4x" />
+                  <p>Ajouter une photo</p>
+                </ImageIcon>
+              ) : (
+                <PreviewImage src={previewImage} alt="Selected Image" />
+              )}
+            </ImageInputWrapper>
+          </FormGroup>
 
           <ButtonContainer>
-            <SubmitButton type="submit">Créer l hôtel</SubmitButton>
+            <SubmitButton type="submit">Enregistrer </SubmitButton>
           </ButtonContainer>
 
           {error && <Error>{error}</Error>}
-          {success && <SuccessMessage>Hôtel ajouté avec succès !</SuccessMessage>}
+          {success && <SuccessMessage>Hotel added successfully!</SuccessMessage>}
         </FormContainer>
       </Content>
     </Container>
   );
 };
 
-
 // Styles
 const Container = styled.div`
   display: flex;
   height: 100vh;
   background-color: #f7f7f7; /* Couleur de fond */
-  padding-top: 30px; /* Laisse de l'espace en haut pour le navbar */
+  padding-top: -40px; /* Laisse de l'espace en haut pour le navbar */
   margin-left: 230px; /* Ajustez pour laisser de l'espace pour le sidebar */
 `;
 
@@ -224,6 +237,35 @@ const Content = styled.div`
   padding: 20px;
   background-color: #f7f7f7;
 `;
+
+const BackButton = styled.button`
+  display: flex;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 700; /* Appliquer un poids très léger */
+  align-items: center;
+  background-color: #ffffff; /* Couleur du bouton */
+  color: #000000;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 21.74px;
+  cursor: pointer;
+  margin-bottom: 20px; /* Espace sous le bouton */
+  margin-left: 50px; 
+
+  &:hover {
+    background-color: #ffffff; /* Couleur au survol */
+  }
+`;
+
+const StyledHr = styled.hr`
+  border: none;
+  border-top: 2px dashed #ddd;
+  margin: 20px 20px; /* 20px en haut/bas et 20px à gauche/droite */
+  width: calc(100% - 40px); /* Réduire la largeur de 40px pour respecter la marge gauche et droite */
+`;
+
+
 
 const FormContainer = styled.form`
   background-color: white;
@@ -237,7 +279,7 @@ const FormContainer = styled.form`
 const FormRow = styled.div`
   display: flex;
   justify-content: center; /* Centrer les champs horizontalement */
-  margin-bottom: 50px; /* Augmenter l'espace entre les lignes */
+  margin-bottom: 30px; /* Augmenter l'espace entre les lignes */
 `;
 
 const FormGroup = styled.div`
@@ -256,38 +298,98 @@ const FormGroup = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 8px;
-  font-weight: bold;
+  margin-left: 60px;
+  font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+  font-weight: 500; /* Appliquer un poids très léger */
+  font-size: 14px;
+  color: #464545FF
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 14px;
+  font-size: 18.53px;
   outline: none;
 
   &:focus {
     border-color: #4caf50;
   }
 `;
+
+
 
 const CurrencySelect = styled.select`
-  width: 100%;
+  width: 320px;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 14px;
   font-size: 16px;
   outline: none;
+  margin-bottom: 8px;
+  margin-left: 0px;
+  font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+  font-weight: 500; /* Appliquer un poids très léger */
+  font-size: 14px;
+  color: #464545FF
 
   &:focus {
     border-color: #4caf50;
   }
 `;
 
-const ImageInput = styled(Input)`
-  height: 150px; /* Augmenter la hauteur du champ d'image */
-  margin-left: 5px;
+// const ImageInput = styled(Input)`
+//   height: 150px; /* Augmenter la hauteur du champ d'image */
+//   margin-left: 5px;
+// `;
+
+const ImageInputWrapper = styled.div`
+  position: relative;
+  width: 660px;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  margin-left: 60px;
+
+  &:hover {
+    border-color: #4caf50;
+  }
+`;
+
+const ImageInput = styled.input`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+`;
+
+const ImageIcon = styled.div`
+  display: flex;
+  flex-direction: column; /* Aligne les éléments en colonne */
+  align-items: center;    /* Centre les éléments horizontalement */
+  justify-content: center; /* Centre les éléments verticalement */
+  font-size: 14px;
+  color: #555;
+  
+  p {
+    margin-top: 8px; /* Espace entre l'icône et le texte */
+    font-weight: bold;
+    font-size: 16px; /* Ajuste la taille du texte */
+  }
+`;
+
+
+const PreviewImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const ButtonContainer = styled.div`
@@ -297,12 +399,14 @@ const ButtonContainer = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #474646FF;
+  background-color: #555555;
   color: white;
+  font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+  font-weight: 500; /* Appliquer un poids très léger */
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   margin-right: 55px; /* Augmenter l'espace à droite du bouton */
 

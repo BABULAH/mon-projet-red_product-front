@@ -42,12 +42,17 @@ const Hotels = () => {
       <Sidebar />
       <Content>
         <NavbarContainer>
-          <Navbar pageTitle="Liste Hôtels" />
+          <Navbar pageTitle="Liste des Hôtels" />
         </NavbarContainer>
         
         {/* Section Hôtels et Bouton */}
         <HotelsHeader>
-          <HotelsCount>Hôtels {hotels.length}</HotelsCount>
+        <HotelsCount>
+          Hôtels <span style={{ marginLeft: '20px', color: 'grey' }}>{hotels.length}</span>
+        </HotelsCount>
+
+
+
           <CreateHotelButton onClick={() => router.push('/hotels/create')}>
             + Créer un nouvel hôtel
           </CreateHotelButton>
@@ -97,11 +102,16 @@ const Content = styled.div`
 
 
 const HotelsCount = styled.h2`
+  display: flex; /* Utiliser Flexbox pour aligner le contenu */
   margin: 0;
   font-size: 24px;
+  font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+  font-weight: 300; /* Appliquer un poids très léger */
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
 `;
 const NavbarContainer = styled.div`
-  margin-left: 250px; /* Ajoutez une marge gauche pour laisser de la place au sidebar */
+  margin-left: 250px; /* 
 `;
 
 const CreateHotelButton = styled.button`
@@ -151,18 +161,24 @@ const HotelInfo = styled.div`
 const HotelAddress = styled.p`
   margin: 5px 0;
   font-size: 12px;
-  color: #555;
+  color: #8D4B38;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 `;
 
 const HotelName = styled.h2`
   margin: 5px 0;
-  font-size: 18px;
+  font-size: 22px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 500; /* Appliquer un poids très léger */
 `;
 
 const HotelPrice = styled.p`
   margin: 5px 0;
   font-size: 12px;
   color: #000;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 `;
 
 export default Hotels;

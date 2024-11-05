@@ -15,7 +15,7 @@ const Dashboard = () => {
 
         <WelcomeSection>
           <h2>Bienvenue sur RED Product</h2>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <p>Lorem ipsum dolor sit amet consectetur</p>
         </WelcomeSection>
 
         {/* Sections avec icônes entourées de cercles et textes */}
@@ -26,8 +26,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faFileAlt} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>125 Formulaires</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>125</h2>
+                  <h3>Formulaires</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -38,8 +41,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faComments} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>40 Messages</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>40</h2>
+                  <h3>Massages</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -50,8 +56,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faUsers} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>600 Utilisateurs</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>600</h2>
+                  <h3>Utilisateurs</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -62,8 +71,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>25 E-mails</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>25</h2>
+                  <h3>E-mail</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -74,8 +86,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faHotel} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>40 Hôtels</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>40</h2>
+                  <h3>Hôtels</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -86,8 +101,11 @@ const Dashboard = () => {
                 <FontAwesomeIcon icon={faBuilding} size="lg" />
               </IconCircle>
               <TextContainer>
-                <h3>02 Entités</h3>
-                <p>Je ne sais pas quoi mettre</p>
+                <div className="header">
+                  <h2>02</h2>
+                  <h3>Entités</h3>
+                </div>
+                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
               </TextContainer>
             </IconText>
           </Section>
@@ -101,7 +119,7 @@ const Dashboard = () => {
 const Container = styled.div`
   display: flex;
   height: 100vh;
-  background-color: #999898FF; /* Gris clair pour le fond du tableau de bord */
+  background-color: #F0F0F0; /* Gris clair pour le fond du tableau de bord */
   padding-top: 72px; /* Laisse de l'espace en haut pour le navbar */
 `;
 
@@ -120,15 +138,28 @@ const WelcomeSection = styled.div`
   h2 {
     margin: 0 0 10px 0;
     font-size: 24px;
-    color: #333;
+    color: #252525DE;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 100; /* Appliquer un poids très léger */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Ajoute un flou léger */
+    padding-left: 10px; /* Augmente l'espace à gauche */
   }
 
   p {
     margin: 0;
-    font-size: 16px;
-    color: #555;
+    font-size: 12px;
+    color: #252525DE;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 100; /* Appliquer un poids très léger */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Ajoute un flou léger */
+    padding-left: 10px; /* Augmente l'espace à gauche */
   }
 `;
+
+
+
+
+
 
 
 // Style pour les sections avec icônes et textes
@@ -168,17 +199,43 @@ const IconCircle = styled.div`
 `;
 
 const TextContainer = styled.div`
+  display: flex; /* Utiliser Flexbox pour aligner h2 et h3 */
+  flex-direction: column; /* Disposer les éléments en colonne */
+  
+  .header {
+    display: flex; /* Flex pour aligner h2 et h3 sur la même ligne */
+    align-items: center; /* Centrer verticalement h2 et h3 */
+  }
+
+  h2 {
+    margin: 0; /* Enlève la marge par défaut */
+    font-size: 24px; /* Ajustez la taille de police si nécessaire */
+    color: #2E2E2EDE; /* Couleur du texte */
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 100; /* Appliquer un poids très léger */
+    margin-right: 10px; /* Espace entre h2 et h3 */
+  }
+
   h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
+    margin: 0; /* Enlève la marge par défaut */
+    font-size: 13px; /* Ajustez la taille de police si nécessaire */
+    color: #504E4EDE; /* Couleur du texte */
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 100; /* Appliquer un poids très léger */
   }
 
   p {
-    margin: 5px 0 0 0;
-    font-size: 14px;
-    color: #666;
+    margin-top: 5px; /* Espace au-dessus du paragraphe */
+    font-size: 12px; /* Ajustez la taille de police si nécessaire */
+    color: #504E4EDE; /* Couleur du texte */
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 100; /* Appliquer un poids très léger */
+    margin-left: 0; /* Assurez-vous qu'il n'y a pas d'espace à gauche */
   }
 `;
+
+
+
+
 
 export default Dashboard;

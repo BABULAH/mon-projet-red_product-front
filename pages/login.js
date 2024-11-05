@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import axiosInstance from '../utils/axiosInstance';
+import { ToastContainer, toast } from 'react-toastify'; // Importez ToastContainer et toast
+import 'react-toastify/dist/ReactToastify.css'; // Importez les styles de Toastify
 
 const logoUrl = '/images/logo.jpg';
 
@@ -23,25 +25,33 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Affiche un toast pour indiquer que la connexion est en cours
+    const loadingToastId = toast.loading('Connexion en cours...');
+
     try {
       const response = await axiosInstance.post('/auth/login', 
         { email, password }, 
         { headers: { 'Content-Type': 'application/json' } }
       );
-      
-      const { token } = response.data;
+
+      const { token, username } = response.data; // Assurez-vous que l'API renvoie le nom d'utilisateur
 
       if (token) {
         if (rememberMe) {
           localStorage.setItem('token', token); // Stocker le token si "Garder moi connecté" est coché
+          localStorage.setItem('username', username); // Stocker le nom d'utilisateur
         } else {
           sessionStorage.setItem('token', token); // Stocker temporairement le token pour la session active
+          sessionStorage.setItem('username', username); // Stocker temporairement le nom d'utilisateur
         }
+        toast.dismiss(loadingToastId); // Dismiss le toast de chargement
         router.push('/dashboard'); // Rediriger vers le tableau de bord en cas de succès
       } else {
         setError('Erreur lors de la récupération du token');
       }
     } catch (err) {
+      toast.dismiss(loadingToastId); // Dismiss le toast de chargement
+
       if (err.response && err.response.data) {
         console.log(err.response.data); // Affiche la réponse d'erreur de l'API
         setError(err.response.data.message || 'Identifiants incorrects');
@@ -55,7 +65,7 @@ const Login = () => {
     <Container>
       <Logo src={logoUrl} alt="Logo" />
       <Form onSubmit={handleSubmit}>
-        <Title>Connexion</Title>
+        <Title>Connectez-vous en tant que Admin</Title>
         <Input 
           type="email" 
           placeholder="Email" 
@@ -79,7 +89,7 @@ const Login = () => {
           <Label>Garder moi connecté</Label>
         </CheckboxContainer>
         {error && <Error>{error}</Error>} {/* Afficher l'erreur en cas de problème */}
-        <Button type="submit">Connexion</Button>
+        <Button type="submit">Se connecter</Button>
       </Form>
       <LinksContainer>
         <ForgotPassword onClick={() => router.push('/ForgotPassword')}>
@@ -89,9 +99,12 @@ const Login = () => {
           Vous n avez pas de compte ? <a onClick={() => router.push('/register')}>S inscrire</a>
         </SignUpLink>
       </LinksContainer>
+      <ToastContainer /> {/* Ajoutez le conteneur Toast ici */}
     </Container>
   );
 };
+
+
 
 // Styles
 const Container = styled.div`
@@ -111,36 +124,45 @@ const Logo = styled.img`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 384px;
+  height: 424.25px;
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
   text-align: center;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
+    font-size: 17.07px;
 `;
 
 const Input = styled.input`
   margin: 20px 0;
   padding: 10px;
-  font-size: 16px;
+  font-size: 18.67px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
   border: none;
-  border-bottom: 1px solid #474646FF;
+  border-bottom: 1px solid #ECE3E3FF;
   outline: none;
   &:focus {
-    border-bottom: 1px solid #474646FF;
+    border-bottom: 1px solid #ECE3E3FF;
   }
 `;
 
 const Button = styled.button`
   padding: 10px;
   background-color: #474646FF;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 500; /* Appliquer un poids très léger */
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 21.33px;
+  border-radius: 5.33px;
 `;
 
 const CheckboxContainer = styled.div`
@@ -151,10 +173,14 @@ const CheckboxContainer = styled.div`
 
 const Checkbox = styled.input`
   margin-right: 8px;
+  width: 24px;
+  Height: 24px;
 `;
 
 const Label = styled.label`
-  font-size: 14px;
+  font-size: 21.33px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 400; /* Appliquer un poids très léger */
 `;
 
 const LinksContainer = styled.div`
@@ -164,8 +190,10 @@ const LinksContainer = styled.div`
 
 const ForgotPassword = styled.p`
   margin: 10px 0;
-  font-size: 14px;
-  color: #D3AD03FF;
+  font-size: 18.67px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 500; /* Appliquer un poids très léger */
+  color: #FFD964;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -174,11 +202,13 @@ const ForgotPassword = styled.p`
 
 const SignUpLink = styled.p`
   margin-top: 10px;
-  font-size: 14px;
+    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
+    font-weight: 700; /* Appliquer un poids très léger */
+  font-size: 18.67px;
   color: white;
 
   a {
-    color: #D3AD03FF;
+    color: #FFD964;
     cursor: pointer;
     text-decoration: underline;
   }

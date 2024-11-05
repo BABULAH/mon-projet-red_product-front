@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faSignOutAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+
 import axiosInstance from '../utils/axiosInstance';
 
 const Navbar = ({ pageTitle }) => {
@@ -9,18 +10,14 @@ const Navbar = ({ pageTitle }) => {
 
   const handleLogout = async () => {
     try {
-      // Appel à l'API de déconnexion
       await axiosInstance.post('/auth/logout');
-      
-      // Supprimer le token côté client (si stocké dans localStorage)
       localStorage.removeItem('token');
-
-      // Redirection vers la page de connexion
       router.push('/login');
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
     }
   };
+
 
   return (
     <NavbarContainer>
@@ -31,8 +28,14 @@ const Navbar = ({ pageTitle }) => {
           <SearchInput type="text" placeholder="Rechercher..." />
         </SearchContainer>
         <IconsContainer>
-          <FontAwesomeIcon icon={faBell} size="lg" style={{ marginRight: '20px', cursor: 'pointer' }} />
-          <ProfileImage src="/images/client4.png" alt="User Profile" />
+          <NotificationIconWrapper>
+            <NotificationBadge>3</NotificationBadge>
+            <FontAwesomeIcon icon={faBell} size="lg" />
+          </NotificationIconWrapper>
+          <ProfileWrapper>
+            <ProfileImage src="/images/client4.png" alt="User Profile" />
+            <OnlineIndicator />
+          </ProfileWrapper>
           <FontAwesomeIcon
             icon={faSignOutAlt}
             size="lg"
@@ -49,20 +52,22 @@ const Navbar = ({ pageTitle }) => {
 const NavbarContainer = styled.div`
   position: fixed;
   top: 0;
-  left: 240px; /* Laisse de l'espace pour le sidebar */
-  width: calc(98% - 250px); /* Prend toute la largeur restante */
+  left: 240px;
+  width: calc(98% - 250px);
   height: 60px;
   background-color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  z-index: 10; /* Assure que le navbar reste au-dessus du contenu */
+  z-index: 10;
 `;
 
 const Title = styled.h1`
   font-size: 20px;
   margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
 `;
 
 const RightContainer = styled.div`
@@ -71,21 +76,21 @@ const RightContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  position: relative; /* Nécessaire pour positionner l'icône à l'intérieur */
+  position: relative;
   margin: 0 20px;
 `;
 
 const SearchIcon = styled(FontAwesomeIcon)`
-  position: absolute; /* Positionne l'icône à l'intérieur du champ de recherche */
-  left: 10px; /* Ajustez la position à gauche de l'icône */
-  top: 50%; /* Centrer verticalement */
-  transform: translateY(-50%); /* Ajuste pour centrer parfaitement */
-  color: #888; /* Couleur de l'icône, ajustez selon vos préférences */
-  pointer-events: none; /* Évite que l'icône interfère avec l'interaction de l'utilisateur */
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
 `;
 
 const SearchInput = styled.input`
-  padding: 10px 10px 10px 40px; /* Ajoutez de l'espace à gauche pour l'icône */
+  padding: 10px 10px 10px 40px;
   border: 1px solid #ccc;
   border-radius: 50px;
   outline: none;
@@ -94,6 +99,46 @@ const SearchInput = styled.input`
 const IconsContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const NotificationIconWrapper = styled.div`
+  position: relative;
+  margin-right: 20px;
+  cursor: pointer;
+`;
+
+const NotificationBadge = styled.div`
+  position: absolute;
+  top: -10px; /* Ajoutez plus d'espace au-dessus */
+  right: -13px; /* Ajoutez plus d'espace à droite */
+  background-color: #FCC100;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10%;
+  padding: 5px;
+  height: 5px; /* Ajusté pour mieux contenir le texte */
+  width: 5px; /* Ajusté pour mieux contenir le texte */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+
+const ProfileWrapper = styled.div`
+  position: relative;
+`;
+
+const OnlineIndicator = styled.div`
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background-color: #28a745;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 `;
 
 const ProfileImage = styled.img`
