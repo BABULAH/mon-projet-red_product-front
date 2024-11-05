@@ -4,6 +4,8 @@ import Sidebar from '../components/Sidebar';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInstance'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Hotels = () => {
   const router = useRouter();
@@ -54,7 +56,8 @@ const Hotels = () => {
             Hôtels <span style={{ marginLeft: '20px', color: 'grey' }}>{hotels.length}</span>
           </HotelsCount>
           <CreateHotelButton onClick={() => router.push('/hotels/create')}>
-            + Créer un nouvel hôtel
+            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} /> {/* Ajoutez l'icône ici */}
+            Créer un nouvel hôtel
           </CreateHotelButton>
         </HotelsHeader>
         <HotelsGrid>
@@ -117,9 +120,9 @@ const NavbarContainer = styled.div`
 const CreateHotelButton = styled.button`
   background-color: white;
   color: #000000;
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: 14px;
   cursor: pointer;
   font-size: 16px;
 

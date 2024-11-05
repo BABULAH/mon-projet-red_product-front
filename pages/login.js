@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import { ToastContainer, toast } from 'react-toastify'; // Importez ToastContainer et toast
-import 'react-toastify/dist/ReactToastify.css'; // Importez les styles de Toastify
 
 const logoUrl = '/images/logo.jpg';
 
@@ -13,9 +11,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Nouvel état pour gérer le chargement
 
   useEffect(() => {
-    // Si un token existe déjà dans le localStorage, redirige l'utilisateur vers le dashboard
     const token = localStorage.getItem('token');
     if (token) {
       router.push('/dashboard');
@@ -24,9 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Affiche un toast pour indiquer que la connexion est en cours
-    const loadingToastId = toast.loading('Connexion en cours...');
+    setIsLoading(true); // Démarre le chargement
 
     try {
       const response = await axiosInstance.post('/auth/login', 
@@ -34,32 +30,28 @@ const Login = () => {
         { headers: { 'Content-Type': 'application/json' } }
       );
 
-      const { token, username } = response.data; // Assurez-vous que l'API renvoie le nom d'utilisateur
+      const { token, username } = response.data;
 
       if (token) {
         if (rememberMe) {
-          localStorage.setItem('token', token); // Stocker le token si "Garder moi connecté" est coché
-          localStorage.setItem('username', response.data.username); // Assurez-vous que 'response.data.username' contient le bon nom d'utilisateur
-          localStorage.setItem('username', username); // Stocker le nom d'utilisateur
-          console.log("nom de l'utiliateur recuperer", token);
+          localStorage.setItem('token', token);
+          localStorage.setItem('username', username);
         } else {
-          sessionStorage.setItem('token', token); // Stocker temporairement le token pour la session active
-          sessionStorage.setItem('username', username); // Stocker temporairement le nom d'utilisateur
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('username', username);
         }
-        toast.dismiss(loadingToastId); // Dismiss le toast de chargement
-        router.push('/dashboard'); // Rediriger vers le tableau de bord en cas de succès
+        router.push('/dashboard');
       } else {
         setError('Erreur lors de la récupération du token');
       }
     } catch (err) {
-      toast.dismiss(loadingToastId); // Dismiss le toast de chargement
-
       if (err.response && err.response.data) {
-        console.log(err.response.data); // Affiche la réponse d'erreur de l'API
         setError(err.response.data.message || 'Identifiants incorrects');
       } else {
         setError('Erreur réseau');
       }
+    } finally {
+      setIsLoading(false); // Arrête le chargement
     }
   };
 
@@ -90,8 +82,12 @@ const Login = () => {
           />
           <Label>Garder moi connecté</Label>
         </CheckboxContainer>
-        {error && <Error>{error}</Error>} {/* Afficher l'erreur en cas de problème */}
-        <Button type="submit">Se connecter</Button>
+        {error && <Error>{error}</Error>}
+        {isLoading ? (
+          <LoadingMessage>Connexion en cours...</LoadingMessage> // Message de chargement
+        ) : (
+          <Button type="submit">Se connecter</Button>
+        )}
       </Form>
       <LinksContainer>
         <ForgotPassword onClick={() => router.push('/ForgotPassword')}>
@@ -101,10 +97,10 @@ const Login = () => {
           Vous n avez pas de compte ? <a onClick={() => router.push('/register')}>S inscrire</a>
         </SignUpLink>
       </LinksContainer>
-      <ToastContainer /> {/* Ajoutez le conteneur Toast ici */}
     </Container>
   );
 };
+
 
 
 
@@ -219,6 +215,12 @@ const SignUpLink = styled.p`
 const Error = styled.p`
   color: red;
   font-size: 14px;
+`;
+
+const LoadingMessage = styled.p`
+  color: #333;
+  font-size: 14px;
+  text-align: center;
 `;
 
 export default Login;

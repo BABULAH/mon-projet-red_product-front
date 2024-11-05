@@ -15,6 +15,7 @@ const Register = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState(''); 
   const [success, setSuccess] = useState(''); 
+  const [isLoading, setIsLoading] = useState(false); // Nouvel état pour gérer le chargement
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +28,7 @@ const Register = () => {
     }
 
     toast.loading("Inscription en cours..."); // Affiche le toast de chargement
+    setIsLoading(true); // Démarre le chargement
 
     try {
       const response = await axiosInstance.post('/auth/register', {
@@ -48,6 +50,8 @@ const Register = () => {
       } else {
         setError('Erreur lors de l\'inscription, veuillez réessayer.');
       }
+    } finally {
+      setIsLoading(false); // Arrête le chargement
     }
   };
 
@@ -89,7 +93,11 @@ const Register = () => {
           />
           <Label>Accepter les termes et la politique</Label>
         </CheckboxContainer>
-        <Button type="submit">Sinscrire</Button>
+        {isLoading ? (
+          <LoadingMessage>Inscription en cours...</LoadingMessage> // Message de chargement
+        ) : (
+          <Button type="submit">S'inscrire</Button>
+        )}
       </Form>
       <LinksContainer>
         <LoginLink>
@@ -99,6 +107,7 @@ const Register = () => {
     </Container>
   );
 };
+
 
 // Styles
 const Container = styled.div`
@@ -204,6 +213,14 @@ const ErrorMessage = styled.p`
 
 const SuccessMessage = styled.p`
   color: green;
+  text-align: center;
+`;
+
+
+// Styles pour le message de chargement
+const LoadingMessage = styled.p`
+  color: #333;
+  font-size: 14px;
   text-align: center;
 `;
 
