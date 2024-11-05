@@ -2,14 +2,20 @@ import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTachometerAlt, faHotel } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 
 const logoUrl = '/images/rep_prod_logo.jpg';
 
 const Sidebar = () => {
   const router = useRouter();
+  const [username, setUsername] = useState('Utilisateur'); // État local pour le nom d'utilisateur
 
-  // Récupérer le nom de l'utilisateur depuis localStorage
-  const username = localStorage.getItem('username') || 'Utilisateur'; // Valeur par défaut si pas trouvé
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []); // Ce `useEffect` s'exécute seulement une fois au montage
 
   return (
     <SidebarContainer>
@@ -37,7 +43,7 @@ const Sidebar = () => {
       <ProfileContainer>
         <ProfileImage src="/images/client4.png" alt="User Profile" />
         <ProfileDetails>
-          <ProfileName>{username}</ProfileName> 
+          <ProfileName>{username}</ProfileName>
           <StatusContainer>
             <OnlineIndicator />
             <StatusText>En ligne</StatusText>
@@ -47,6 +53,7 @@ const Sidebar = () => {
     </SidebarContainer>
   );
 };
+
 
 // Styles (inchangés)
 const SidebarContainer = styled.div`

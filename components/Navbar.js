@@ -12,6 +12,7 @@ const Navbar = ({ pageTitle }) => {
     try {
       await axiosInstance.post('/auth/logout');
       localStorage.removeItem('token');
+      sessionStorage.removeItem('token'); // Supprime le token de sessionStorage
       router.push('/login');
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);

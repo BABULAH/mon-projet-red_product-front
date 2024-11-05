@@ -1,12 +1,30 @@
-// pages/dashboard.js
-
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt, faEnvelope, faUsers, faHotel, faBuilding, faComments } from '@fortawesome/free-solid-svg-icons'; // Importation des icônes
+import { faFileAlt, faEnvelope, faUsers, faHotel, faBuilding, faComments } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = () => {
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true); // Indiquer que nous sommes côté client
+    
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    console.log("Token récupéré :", token);
+    
+    if (!token) {
+      router.push('/login');
+    }
+  }, [router]);
+
+  if (!isClient) {
+    return null; // Ne pas rendre côté serveur
+  }
+
   return (
     <Container>
       <Sidebar />
@@ -18,11 +36,10 @@ const Dashboard = () => {
           <p>Lorem ipsum dolor sit amet consectetur</p>
         </WelcomeSection>
 
-        {/* Sections avec icônes entourées de cercles et textes */}
         <SectionGrid>
           <Section>
             <IconText>
-              <IconCircle color="#ff6f61"> {/* Cercle rouge clair pour l'icône */}
+              <IconCircle color="#ff6f61">
                 <FontAwesomeIcon icon={faFileAlt} size="lg" />
               </IconCircle>
               <TextContainer>
@@ -30,14 +47,14 @@ const Dashboard = () => {
                   <h2>125</h2>
                   <h3>Formulaires</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
 
           <Section>
             <IconText>
-              <IconCircle color="#6fcf97"> {/* Cercle vert clair */}
+              <IconCircle color="#6fcf97">
                 <FontAwesomeIcon icon={faComments} size="lg" />
               </IconCircle>
               <TextContainer>
@@ -45,14 +62,14 @@ const Dashboard = () => {
                   <h2>40</h2>
                   <h3>Massages</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
 
           <Section>
             <IconText>
-              <IconCircle color="#56ccf2"> {/* Cercle bleu clair */}
+              <IconCircle color="#56ccf2">
                 <FontAwesomeIcon icon={faUsers} size="lg" />
               </IconCircle>
               <TextContainer>
@@ -60,29 +77,29 @@ const Dashboard = () => {
                   <h2>600</h2>
                   <h3>Utilisateurs</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
 
           <Section>
             <IconText>
-              <IconCircle color="#f2c94c"> {/* Cercle jaune */}
+              <IconCircle color="#f2c94c">
                 <FontAwesomeIcon icon={faEnvelope} size="lg" />
               </IconCircle>
               <TextContainer>
                 <div className="header">
                   <h2>25</h2>
-                  <h3>E-mail</h3>
+                  <h3>E-mails</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
 
           <Section>
             <IconText>
-              <IconCircle color="#bb6bd9"> {/* Cercle violet */}
+              <IconCircle color="#bb6bd9">
                 <FontAwesomeIcon icon={faHotel} size="lg" />
               </IconCircle>
               <TextContainer>
@@ -90,14 +107,14 @@ const Dashboard = () => {
                   <h2>40</h2>
                   <h3>Hôtels</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
 
           <Section>
             <IconText>
-              <IconCircle color="#f2994a"> {/* Cercle orange */}
+              <IconCircle color="#f2994a">
                 <FontAwesomeIcon icon={faBuilding} size="lg" />
               </IconCircle>
               <TextContainer>
@@ -105,7 +122,7 @@ const Dashboard = () => {
                   <h2>02</h2>
                   <h3>Entités</h3>
                 </div>
-                <p>Je ne sais pas quoi mettre</p> {/* Ce p sera sur la ligne suivante */}
+                <p>Je ne sais pas quoi mettre</p>
               </TextContainer>
             </IconText>
           </Section>
@@ -114,6 +131,8 @@ const Dashboard = () => {
     </Container>
   );
 };
+
+
 
 // Styles
 const Container = styled.div`

@@ -1,5 +1,3 @@
-// pages/hotels.js
-
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
@@ -9,25 +7,31 @@ import axiosInstance from '../utils/axiosInstance';
 
 const Hotels = () => {
   const router = useRouter();
-  const [hotels, setHotels] = useState([]); // État pour stocker les hôtels
-  const [error, setError] = useState(''); // État pour gérer les erreurs
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true); // Ajouter un état de chargement
+  // const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchHotels = async () => {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      console.log("Token récupéré :", token); // Vérifiez si le token est bien récupéré ici
-  
+      console.log("Token récupéré :", token); 
       if (!token) {
         router.push('/login');
         return;
       }
   
       try {
-        const response = await axiosInstance.get('/hotels');
+        const response = await axiosInstance.get('/hotels', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setHotels(response.data);
       } catch (err) {
-        setError('Erreur lors de la récupération des hôtels');
         console.error("Erreur Axios:", err);
+        router.push('/login'); // Redirection si le token est invalide
+      } finally {
+        setLoading(false); // Fin du chargement
       }
     };
   
@@ -35,7 +39,8 @@ const Hotels = () => {
   }, [router]);
   
 
-  if (error) return <p>{error}</p>;
+  if (loading) return <p>Chargement...</p>; // Affichage pendant le chargement
+  // if (error) return <p>{error}</p>; // Affichage en cas d'erreur
 
   return (
     <Container>
@@ -44,28 +49,22 @@ const Hotels = () => {
         <NavbarContainer>
           <Navbar pageTitle="Liste des Hôtels" />
         </NavbarContainer>
-        
-        {/* Section Hôtels et Bouton */}
         <HotelsHeader>
-        <HotelsCount>
-          Hôtels <span style={{ marginLeft: '20px', color: 'grey' }}>{hotels.length}</span>
-        </HotelsCount>
-
-
-
+          <HotelsCount>
+            Hôtels <span style={{ marginLeft: '20px', color: 'grey' }}>{hotels.length}</span>
+          </HotelsCount>
           <CreateHotelButton onClick={() => router.push('/hotels/create')}>
             + Créer un nouvel hôtel
           </CreateHotelButton>
         </HotelsHeader>
-
         <HotelsGrid>
           {hotels.map((hotel) => (
-            <HotelCard key={hotel._id}> {/* Utilisez l'identifiant unique de l'hôtel */}
-              <HotelImage src={hotel.image || '/default-image.jpg'} alt={hotel.name} /> {/* Assurez-vous d'avoir une image par défaut */}
+            <HotelCard key={hotel._id}>
+              <HotelImage src={hotel.image || '/default-image.jpg'} alt={hotel.name} />
               <HotelInfo>
                 <HotelAddress>{hotel.address}</HotelAddress>
                 <HotelName>{hotel.name}</HotelName>
-                <HotelPrice>{hotel.pricePerNight} {hotel.currency?.name} par nuit</HotelPrice> {/* Afficher la devise si elle est disponible */}
+                <HotelPrice>{hotel.pricePerNight} {hotel.currency?.name} par nuit</HotelPrice>
               </HotelInfo>
             </HotelCard>
           ))}
@@ -75,10 +74,11 @@ const Hotels = () => {
   );
 };
 
+
 // Styles
 const Container = styled.div`
   display: flex;
-  height: 100vh; /* Prend toute la hauteur de la vue */
+  height: 100vh; 
   background-color: #E9E6E6FF;
 `;
 
@@ -92,21 +92,21 @@ const HotelsHeader = styled.div`
 `;
 
 const Content = styled.div`
-  flex: 1; /* Prend l'espace restant après la sidebar */
+  flex: 1;
   padding: 0px;
   background-color: #E9E6E6FF;
-  overflow-y: auto; /* Ajoute un défilement si le contenu dépasse la hauteur */
-  margin-left: 234px; /* Ajustez pour laisser de l'espace pour le sidebar */
-  padding-top: 72px; /* Laisse de l'espace en haut pour le navbar */
+  overflow-y: auto; 
+  margin-left: 234px; 
+  padding-top: 72px; 
 `;
 
 
 const HotelsCount = styled.h2`
-  display: flex; /* Utiliser Flexbox pour aligner le contenu */
+  display: flex; 
   margin: 0;
   font-size: 24px;
-  font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-  font-weight: 300; /* Appliquer un poids très léger */
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 300; 
   font-family: 'Roboto', sans-serif;
   padding: 20px;
 `;
@@ -133,8 +133,8 @@ const HotelsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-left: 20px; /* Diminuer la marge à gauche (ajustez selon vos besoins) */
-  margin-right: 20px; /* Augmenter la marge à droite (ajustez selon vos besoins) */
+  margin-left: 20px;
+  margin-right: 20px; 
 `;
 
 const HotelCard = styled.div`
@@ -162,23 +162,23 @@ const HotelAddress = styled.p`
   margin: 5px 0;
   font-size: 12px;
   color: #8D4B38;
-    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 400;
 `;
 
 const HotelName = styled.h2`
   margin: 5px 0;
   font-size: 22px;
-    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 500; /* Appliquer un poids très léger */
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 500; 
 `;
 
 const HotelPrice = styled.p`
   margin: 5px 0;
   font-size: 12px;
   color: #000;
-    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 400; 
 `;
 
 export default Hotels;

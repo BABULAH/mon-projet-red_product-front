@@ -39,7 +39,9 @@ const Login = () => {
       if (token) {
         if (rememberMe) {
           localStorage.setItem('token', token); // Stocker le token si "Garder moi connecté" est coché
+          localStorage.setItem('username', response.data.username); // Assurez-vous que 'response.data.username' contient le bon nom d'utilisateur
           localStorage.setItem('username', username); // Stocker le nom d'utilisateur
+          console.log("nom de l'utiliateur recuperer", token);
         } else {
           sessionStorage.setItem('token', token); // Stocker temporairement le token pour la session active
           sessionStorage.setItem('username', username); // Stocker temporairement le nom d'utilisateur
