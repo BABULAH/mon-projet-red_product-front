@@ -89,7 +89,7 @@ const Register = () => {
           />
           <Label>Accepter les termes et la politique</Label>
         </CheckboxContainer>
-        <Button type="submit">S'inscrire</Button>
+        <Button type="submit">Sinscrire</Button>
       </Form>
       <LinksContainer>
         <LoginLink>
