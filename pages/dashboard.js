@@ -39,8 +39,8 @@ const Dashboard = () => {
         <SectionGrid>
           <Section>
             <IconText>
-              <IconCircle color="#ff6f61">
-                <FontAwesomeIcon icon={faFileAlt} size="lg" />
+              <IconCircle color="#A88ADD">
+                <FontAwesomeIcon icon={faFileAlt} size="lg" style={{ color: 'white' }}/>
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -54,8 +54,8 @@ const Dashboard = () => {
 
           <Section>
             <IconText>
-              <IconCircle color="#6fcf97">
-                <FontAwesomeIcon icon={faComments} size="lg" />
+              <IconCircle color="#0CC2AA">
+                <FontAwesomeIcon icon={faComments} size="lg" style={{ color: 'white' }}/>
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -69,8 +69,9 @@ const Dashboard = () => {
 
           <Section>
             <IconText>
-              <IconCircle color="#56ccf2">
-                <FontAwesomeIcon icon={faUsers} size="lg" />
+              <IconCircle color="#FCC100">
+              <FontAwesomeIcon icon={faUsers} size="lg" style={{ color: 'white' }} />
+
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -84,8 +85,8 @@ const Dashboard = () => {
 
           <Section>
             <IconText>
-              <IconCircle color="#f2c94c">
-                <FontAwesomeIcon icon={faEnvelope} size="lg" />
+              <IconCircle color="#F90000">
+                <FontAwesomeIcon icon={faEnvelope} size="lg" style={{ color: 'white' }}/>
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -99,8 +100,8 @@ const Dashboard = () => {
 
           <Section>
             <IconText>
-              <IconCircle color="#bb6bd9">
-                <FontAwesomeIcon icon={faHotel} size="lg" />
+              <IconCircle color="#9C27B0">
+                <FontAwesomeIcon icon={faHotel} size="lg" style={{ color: 'white' }}/>
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -114,8 +115,8 @@ const Dashboard = () => {
 
           <Section>
             <IconText>
-              <IconCircle color="#f2994a">
-                <FontAwesomeIcon icon={faBuilding} size="lg" />
+              <IconCircle color="#1565C0">
+                <FontAwesomeIcon icon={faBuilding} size="lg" style={{ color: 'white' }}/>
               </IconCircle>
               <TextContainer>
                 <div className="header">
@@ -139,7 +140,7 @@ const Container = styled.div`
   display: flex;
   height: 100vh;
   background-color: #F0F0F0; /* Gris clair pour le fond du tableau de bord */
-  padding-top: 72px; /* Laisse de l'espace en haut pour le navbar */
+  padding-top: 53px; /* Laisse de l'espace en haut pour le navbar */
 `;
 
 const MainContent = styled.div`
@@ -151,18 +152,19 @@ const MainContent = styled.div`
 
 const WelcomeSection = styled.div`
   margin: 0; /* Enlève la marge supérieure */
-  padding: 10px;
+  padding: 8px;
   background-color: #fff;
 
-  h2 {
-    margin: 0 0 10px 0;
-    font-size: 24px;
-    color: #252525DE;
-    font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 100; /* Appliquer un poids très léger */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Ajoute un flou léger */
-    padding-left: 10px; /* Augmente l'espace à gauche */
-  }
+h2 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  color: #252525DE;
+  font-family: 'Open Sans', sans-serif; /* Police légère */
+  font-weight: 100; /* Poids très léger */
+  padding-left: 10px; /* Espace à gauche */
+  opacity: 0.9;
+}
+
 
   p {
     margin: 0;
@@ -193,10 +195,9 @@ const SectionGrid = styled.div`
 const Section = styled.div`
   background-color: #fff; /* Fond blanc pour les sections */
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre pour les sections */
 `;
 
 const IconText = styled.div`

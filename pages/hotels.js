@@ -10,8 +10,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 const Hotels = () => {
   const router = useRouter();
   const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true); // Ajouter un état de chargement
-  // const [error, setError] = useState('');
+  // const [loading, setLoading] = useState(true); // Ajouter un état de chargement
+  // // const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -32,18 +32,12 @@ const Hotels = () => {
       } catch (err) {
         console.error("Erreur Axios:", err);
         router.push('/login'); // Redirection si le token est invalide
-      } finally {
-        setLoading(false); // Fin du chargement
       }
     };
   
     fetchHotels();
   }, [router]);
   
-
-  if (loading) return <p>Chargement...</p>; // Affichage pendant le chargement
-  // if (error) return <p>{error}</p>; // Affichage en cas d'erreur
-
   return (
     <Container>
       <Sidebar />
@@ -53,7 +47,7 @@ const Hotels = () => {
         </NavbarContainer>
         <HotelsHeader>
           <HotelsCount>
-            Hôtels <span style={{ marginLeft: '20px', color: 'grey' }}>{hotels.length}</span>
+            Hôtels <span style={{ marginLeft: '20px', color: 'grey', opacity: 0.5}}>{hotels.length}</span>
           </HotelsCount>
           <CreateHotelButton onClick={() => router.push('/hotels/create')}>
             <FontAwesomeIcon icon={faPlus} style={{ marginRight: '8px' }} /> {/* Ajoutez l'icône ici */}
@@ -92,6 +86,7 @@ const HotelsHeader = styled.div`
   margin-bottom: 20px;
   background-color: #ffffff;
   height: 80px;
+  margin-top: -20px;
 `;
 
 const Content = styled.div`
@@ -107,11 +102,12 @@ const Content = styled.div`
 const HotelsCount = styled.h2`
   display: flex; 
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
   font-family: 'Roboto', sans-serif; 
-  font-weight: 300; 
+  font-weight: 100; 
   font-family: 'Roboto', sans-serif;
   padding: 20px;
+  opacity: 0.7;
 `;
 const NavbarContainer = styled.div`
   margin-left: 250px; /* 
@@ -120,11 +116,12 @@ const NavbarContainer = styled.div`
 const CreateHotelButton = styled.button`
   background-color: white;
   color: #000000;
-  border: 1px solid #ddd;
-  padding: 10px 20px;
-  border-radius: 14px;
+  border: 1.5px solid #ddd;
+  padding: 12px 20px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
+  margin-right: 25px; /* Ajoute un espace à droite */
 
   &:hover {
     background-color: #f9f9f9;
@@ -132,10 +129,11 @@ const CreateHotelButton = styled.button`
   }
 `;
 
+
 const HotelsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 10px;
   margin-left: 20px;
   margin-right: 20px; 
 `;
@@ -152,7 +150,7 @@ const HotelCard = styled.div`
 
 const HotelImage = styled.img`
   width: 100%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
 `;
 
@@ -177,11 +175,11 @@ const HotelName = styled.h2`
 `;
 
 const HotelPrice = styled.p`
-  margin: 5px 0;
-  font-size: 12px;
+  margin: 10px 0;
+  font-size: 11px;
   color: #000;
     font-family: 'Roboto', sans-serif; 
-    font-weight: 400; 
+    font-weight: 200; 
 `;
 
 export default Hotels;

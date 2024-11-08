@@ -28,7 +28,7 @@ const Register = () => {
     }
 
     // toast.loading("Inscription en cours..."); // Affiche le toast de chargement
-    // setIsLoading(true); // Démarre le chargement
+    setIsLoading(true); // Démarre le chargement
 
     try {
       const response = await axiosInstance.post('/auth/register', {
@@ -61,8 +61,6 @@ const Register = () => {
       <Logo src={logoUrl} alt="Logo" />
       <Form onSubmit={handleSubmit}>
         <Title>Inscrivez-vous en tant que Admin</Title>
-        {error && <ErrorMessage>{error}</ErrorMessage>}  
-        {success && <SuccessMessage>{success}</SuccessMessage>}  
         <Input 
           type="text" 
           placeholder="Nom" 
@@ -103,6 +101,8 @@ const Register = () => {
         <LoginLink>
           Déjà un compte ? <a onClick={() => router.push('/login')}>Se connecter</a>
         </LoginLink>
+        {error && <ErrorMessage>{error}</ErrorMessage>}  
+        {success && <SuccessMessage>{success}</SuccessMessage>}  
       </LinksContainer>
     </Container>
   );
@@ -116,38 +116,39 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #474646FF;
+  background-image: url('/images/imagedefond.jpg');
+  margin:-10px;
 `;
 
 const Logo = styled.img`
-  width: 200px;
-  margin-bottom: 20px;
+  width: 150px;
+  margin-bottom: 30px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 384px;
-  height: 500px;
+  width: 250px;
+  height: 330px;
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
-  text-align: center;
+    margin-left: 10px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
-    font-size: 17.07px;
+    font-weight: 200; /* Appliquer un poids très léger */
+    font-size: 12.07px;
 `;
 
 const Input = styled.input`
-  margin: 20px 0;
+  margin: 10px 0;
   padding: 10px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
-  font-size: 15.87px;
+    font-weight: 200; /* Appliquer un poids très léger */
+  font-size: 12.87px;
   border: none;
   border-bottom: 1px solid #DBD8D8FF;
   outline: none;
@@ -160,28 +161,35 @@ const Input = styled.input`
 const Button = styled.button`
   padding: 10px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 500; /* Appliquer un poids très léger */
+    font-weight: 200; /* Appliquer un poids très léger */
   background-color: #474646FF;
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 21.33px;
+  font-size: 15.67px;
+  margin-bottom: 10px;
+  width: 220px;
+  margin-left: 14px;
+  border-radius: 4px;
 `;
 
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 25px 0;
 `;
 
 const Checkbox = styled.input`
   margin-right: 8px;
-  width: 24px;
-  height: 24px; /* Corrigé ici */
+  width: 16px;
+  height: 16px;
+  border: 5px solid black; /* Augmente l'épaisseur du contour */
+  border-radius: 2px; /* Ajuste le rayon des coins si souhaité */
 `;
 
+
 const Label = styled.label`
-  font-size: 18.67px;
+  font-size: 13.33px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
     font-weight: 400; /* Appliquer un poids très léger */
 `;
@@ -194,7 +202,7 @@ const LinksContainer = styled.div`
 `;
 
 const LoginLink = styled.p`
-  font-size: 18.67px;
+  font-size: 12.67px;
   color: white;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
     font-weight: 400; /* Appliquer un poids très léger */

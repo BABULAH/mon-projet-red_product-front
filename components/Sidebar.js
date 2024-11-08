@@ -1,10 +1,13 @@
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faHotel } from '@fortawesome/free-solid-svg-icons';
+import { faHotel } from '@fortawesome/free-solid-svg-icons';
+import { MdDashboard } from "react-icons/md";
 import { useEffect, useState } from 'react';
+import Link from 'next/link'; // Importation de Link
 
-const logoUrl = '/images/rep_prod_logo.jpg';
+
+const logoUrl = '/images/logo.jpg';
 
 const Sidebar = () => {
   const router = useRouter();
@@ -21,24 +24,24 @@ const Sidebar = () => {
     <SidebarContainer>
       <LogoContainer>
         <Logo src={logoUrl} alt="Logo" />
-        <LogoText>RED PRODUCT</LogoText>
       </LogoContainer>
+      <TitleContainer>
+        <p>Principal</p>
+      </TitleContainer>
       
-      <NavLink
-        isActive={router.pathname === '/dashboard'}
-        onClick={() => router.push('/dashboard')}
-      >
-        <FontAwesomeIcon icon={faTachometerAlt} size="lg" style={{ marginRight: '10px' }} />
-        Dashboard
-      </NavLink>
+      <Link href="/dashboard" passHref>
+        <NavLink isActive={router.pathname === '/dashboard'}>
+          <MdDashboard style={{ fontSize: '20px', marginRight: '10px' }} />
+          Dashboard
+        </NavLink>
+      </Link>
       
-      <NavLink
-        isActive={router.pathname === '/hotels'}
-        onClick={() => router.push('/hotels')}
-      >
-        <FontAwesomeIcon icon={faHotel} size="lg" style={{ marginRight: '10px' }} />
-        Liste des hôtels
-      </NavLink>
+      <Link href="/hotels" passHref>
+        <NavLink isActive={router.pathname === '/hotels'}>
+          <FontAwesomeIcon icon={faHotel} size="lg" style={{ marginRight: '10px' }} />
+          Liste des hôtels
+        </NavLink>
+      </Link>
       
       <ProfileContainer>
         <ProfileImage src="/images/client4.png" alt="User Profile" />
@@ -54,7 +57,6 @@ const Sidebar = () => {
   );
 };
 
-
 // Styles (inchangés)
 const SidebarContainer = styled.div`
   position: fixed;
@@ -62,14 +64,16 @@ const SidebarContainer = styled.div`
   left: 0;
   width: 200px;
   height: 100%;
-  background-color: #494C4F;
+  background-image: url('/images/imagedefond.jpg');
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: auto;
+  overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+  overflow-x: hidden; /* Empêche le défilement horizontal */
   z-index: 10;
 `;
+
 
 const LogoContainer = styled.div`
   display: flex;
@@ -78,42 +82,58 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 30px;
+  width: 160px;
   height: auto;
 `;
 
-const LogoText = styled.span`
-  color: white;
-  margin-left: 10px;
-  font-size: 23px;
+const TitleContainer = styled.div`
+  p {
+    color: white; /* Texte en blanc */
+    font-size: 13px;
+    margin-bottom: 0px;
+    font-family: "roboto";
+    font-weight: 100;
+    opacity: 0.8;
+  }
 `;
 
-const NavLink = styled.p`
+
+const NavLink = styled.a`
   color: white;
   cursor: pointer;
   font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  text-decoration: none;  /* Supprime la ligne sous le lien */
+  font-weight: 200;
   display: flex;
   align-items: center;
-  margin: 10px 0;
-  padding: 10px;
+  margin: 5px 0;
+  margin-left: 0px;
+  padding: 5px;
+  padding-left: 20px;
   border: 2px solid transparent;
   border-radius: 0px;
   transition: background-color 0.3s, border-color 0.3s;
-  width: 300px;
+  width: 115%;
   transform: translateX(-20px);
 
   ${({ isActive }) =>
     isActive &&
     css`
-      background-color: #d3d3d3;
+      background-color: #F0F0F0;
       color: black;
     `}
 
   &:hover {
-    background-color: #d3d3d3;
+    background-color: #F0F0F0;
+    color: #000000;
+  }
+
+  &:focus {
+    outline: none; /* Supprime l'effet de focus, mais si vous voulez un effet spécifique, vous pouvez personnaliser */
+    color: white; /* Garantit que la couleur reste blanche lors du focus */
   }
 `;
+
 
 const ProfileContainer = styled.div`
   display: flex;

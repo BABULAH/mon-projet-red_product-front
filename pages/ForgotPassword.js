@@ -65,24 +65,25 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #474646FF;
+  background-image: url('/images/imagedefond.jpg');
+  margin:-10px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 230px;
   background-color: white;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  width: 150px;
   height: auto;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: block;
   align-self: center;
 `;
@@ -90,32 +91,32 @@ const Logo = styled.img`
 const Title = styled.h1`
   margin-bottom: 10px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
-    font-size: 18.67px;
+    font-weight: 200; /* Appliquer un poids très léger */
+    font-size: 12.67px;
 `;
 
 const Description = styled.p`
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 12px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
+    font-weight: 100; /* Appliquer un poids très léger */
   color: #333;
 `;
 
 const SuccessMessage = styled.p`
   color: green;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 `;
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 `;
 
 const Label = styled.label`
-  font-size: 15.87px;
+  font-size: 12.87px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   color: #948F8FFF;
@@ -127,7 +128,7 @@ const Label = styled.label`
 
 
 const Input = styled.input`
-  margin: 30px 0;
+  margin: 25px 0;
   padding: 0px;
   font-size: 16px;
   border: none;
@@ -145,13 +146,14 @@ const Button = styled.button`
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 5.33px;
+    font-weight: 600;
 `;
 
 const BackToLogin = styled.p`
   margin-top: 10px;
-  font-size: 18.67px;
+  font-size: 12.67px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
     font-weight: 400; /* Appliquer un poids très léger */
   color: white;

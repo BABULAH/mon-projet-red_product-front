@@ -82,12 +82,12 @@ const Login = () => {
           />
           <Label>Garder moi connecté</Label>
         </CheckboxContainer>
-        {error && <Error>{error}</Error>}
         {isLoading ? (
           <LoadingMessage>Connexion en cours...</LoadingMessage> // Message de chargement
         ) : (
           <Button type="submit">Se connecter</Button>
         )}
+        {error && <Error>{error}</Error>}
       </Form>
       <LinksContainer>
         <ForgotPassword onClick={() => router.push('/ForgotPassword')}>
@@ -111,38 +111,44 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #474646FF;
+  background-image: url('/images/imagedefond.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin:-10px;
 `;
 
+
 const Logo = styled.img`
-  width: 200px;
+  width: 150px;
   margin-bottom: 20px;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 384px;
-  height: 424.25px;
+  width: 250px;
+  height: 290.25px;
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
-  text-align: center;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
-    font-size: 17.07px;
+    font-weight: 200; /* Appliquer un poids très léger */
+    font-size: 12.07px;
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.87); /* Noir avec 87% d'opacité */
 `;
 
 const Input = styled.input`
-  margin: 20px 0;
+  margin: 10px 0;
   padding: 10px;
-  font-size: 18.67px;
+  font-size: 12.67px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 400; /* Appliquer un poids très léger */
+    font-weight: 200; /* Appliquer un poids très léger */
   border: none;
   border-bottom: 1px solid #ECE3E3FF;
   outline: none;
@@ -155,28 +161,28 @@ const Button = styled.button`
   padding: 10px;
   background-color: #474646FF;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 500; /* Appliquer un poids très léger */
+    font-weight: 200; /* Appliquer un poids très léger */
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 21.33px;
+  font-size: 16.33px;
   border-radius: 5.33px;
 `;
 
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 25px 0;
 `;
 
 const Checkbox = styled.input`
   margin-right: 8px;
-  width: 24px;
-  Height: 24px;
+  width: 16px;
+  Height: 16px;
 `;
 
 const Label = styled.label`
-  font-size: 21.33px;
+  font-size: 13.33px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
     font-weight: 400; /* Appliquer un poids très léger */
 `;
@@ -187,10 +193,10 @@ const LinksContainer = styled.div`
 `;
 
 const ForgotPassword = styled.p`
-  margin: 10px 0;
-  font-size: 18.67px;
+  margin: 5px 0;
+  font-size: 12.67px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 500; /* Appliquer un poids très léger */
+    font-weight: 400; /* Appliquer un poids très léger */
   color: #FFD964;
   cursor: pointer;
   &:hover {
@@ -201,8 +207,8 @@ const ForgotPassword = styled.p`
 const SignUpLink = styled.p`
   margin-top: 10px;
     font-family: 'Roboto', sans-serif; /* Appliquer la police Roboto */
-    font-weight: 700; /* Appliquer un poids très léger */
-  font-size: 18.67px;
+    font-weight: 100; /* Appliquer un poids très léger */
+  font-size: 13.67px;
   color: white;
 
   a {
